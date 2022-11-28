@@ -5,16 +5,16 @@ const Button = ({ text, handleClick }) =>
     {text}
   </button>
 
-const StatsLine = ({ text, statsValue }) => {
-  if (text === "positive") {
-    return (<div>
+const StatsLine = ({ text, statsValue, hidden }) => {
+  if (hidden === "positive") {
+    return (<>
       {text} {statsValue}%
-    </div>)
+    </>)
   }
   else return (
-  <div>
-    {text} {statsValue}
-  </div>
+    <>
+      {text} {statsValue}
+    </>
   )
 }
 
@@ -28,13 +28,27 @@ const Stats = ({ good, neutral, bad }) => {
     )
   }
   else return (
-    <>
-      <StatsLine text='good' statsValue={good} />
-      <StatsLine text='neutral' statsValue={neutral} />
-      <StatsLine text='bad' statsValue={bad} />
-      <StatsLine text='average' statsValue={(good - bad) / (good + neutral + bad)} />
-      <StatsLine text='positive' statsValue={good / (good + neutral + bad) * 100} />
-    </>
+    <><table><tr>
+      <td><StatsLine text='good' /></td>
+      <td> <StatsLine statsValue={good} /></td>
+    </tr>
+      <tr>
+        <td><StatsLine text='neutral' /></td>
+        <td> <StatsLine statsValue={neutral} /></td>
+      </tr>
+      <tr>
+        <td><StatsLine text='bad' /></td> 
+        <td> <StatsLine statsValue={bad} /></td>
+      </tr>
+      <tr> 
+        <td><StatsLine text='average' /> </td> 
+        <td><StatsLine statsValue={(good - bad) / (good + neutral + bad)} /></td>
+      </tr>
+      <tr>
+        <td><StatsLine text='positive' /></td> 
+        <td> <StatsLine hidden='positive' statsValue={good / (good + neutral + bad) * 100} /></td>
+      </tr>
+    </table></>
   )
 }
 
