@@ -28,7 +28,7 @@ const Stats = ({ good, neutral, bad }) => {
     )
   }
   else return (
-    <><table><tr>
+    <><table><tbody><tr>
       <td><StatsLine text='good' /></td>
       <td> <StatsLine statsValue={good} /></td>
     </tr>
@@ -47,7 +47,7 @@ const Stats = ({ good, neutral, bad }) => {
       <tr>
         <td><StatsLine text='positive' /></td> 
         <td> <StatsLine hidden='positive' statsValue={good / (good + neutral + bad) * 100} /></td>
-      </tr>
+      </tr></tbody>
     </table></>
   )
 }
