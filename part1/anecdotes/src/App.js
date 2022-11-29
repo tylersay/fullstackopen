@@ -8,9 +8,16 @@ const Button = ({ handleClick, buttonText }) => {
   )
 }
 
-const DisplayPoints = ({ votes }) => {
+const DisplayAnecdote = ({ title, anecdote, votes, highest }) => {
+  if (highest == 0 && title=="Anexdote with most votes") {
+    return <div><h1>{title}</h1>No votes yet</div>
+  }
   return (
-    <div>has {votes} votes</div>
+    <div>
+      <h1>{title}</h1>
+      {anecdote}
+      <p />
+      has {votes} votes</div>
 
   )
 }
@@ -49,14 +56,28 @@ const App = () => {
     setPoints(copy)
   }
 
+  const highest = points.reduce((a, b) => Math.max(a, b), -Infinity)
+  const indexMostVoted = points.indexOf(highest)
+  const anecdoteMostVoted = anecdotes[indexMostVoted]
+  // console.log(indexMostVoted)
+  // console.log(anecdoteMostVoted)
+
+
+
   return (
     <div>
-      {anecdotes[selected]}
-      <DisplayPoints votes={points[selected]} />
-      <p />
-      <Button handleClick={handleNext} buttonText="Next anecdote" />
+
+      <DisplayAnecdote title="Anecdote of the day"
+        anecdote={anecdotes[selected]}
+        votes={points[selected]}
+        highest={highest} />
+      <p/>
       <Button handleClick={handleVote} buttonText="vote" />
-      {/* <Button handleClick={() => handleClick()} buttonText="Button" /> */}
+      <Button handleClick={handleNext} buttonText="Next anecdote" />
+      <p/>
+      <DisplayAnecdote title="Anexdote with most votes"
+        anecdote={anecdoteMostVoted} votes={highest} 
+        highest={highest} />
 
     </div>
   )
