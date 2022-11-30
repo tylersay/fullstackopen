@@ -18,13 +18,27 @@ const Header = ({ headerText }) => {
   )
 }
 
-const Part = ( {part} ) => {
-// console.log('Part props', props)
-// const {part} = props
+const Part = ({ part }) => {
+  // console.log('Part props', props)
+  // const {part} = props
   return (
     <li>
       {part.name} {part.exercises}
     </li>
+  )
+}
+
+const Total = ({ p }) => {
+  // console.log('p', p)
+  // console.log('p.exercises', p.exercises)
+  const exercisesArr = p.reduce((a, b) => a + b.exercises, 0)
+  // console.log('exercisesArr', exercisesArr)
+  return (
+    <div>
+      <b>
+        total of {exercisesArr} exercises
+      </b>
+    </div>
   )
 }
 
@@ -38,6 +52,7 @@ const Content = ({ parts }) => {
         {parts.map(part =>
           <Part key={part.id} part={part} />)}
       </ul>
+      <Total p={parts} />
     </div>
   )
 }
@@ -63,7 +78,8 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
-      }
+      },
+
     ]
   }
 
