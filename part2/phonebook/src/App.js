@@ -25,8 +25,17 @@ const App = () => {
     const toAdd = {
       name: newName
     }
-    setPersons(persons.concat(toAdd))
-    setNewName('')
+
+    if (persons.find(person =>
+      person.name === newName)) {
+      // console.log('newName', newName)
+      // console.log("inside found")
+      alert(`${newName} is already added to phonebook`)
+
+    } else {
+      setPersons(persons.concat(toAdd))
+      setNewName('')
+    }
   }
 
   return (
