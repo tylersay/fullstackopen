@@ -3,7 +3,7 @@ import { useState } from 'react'
 const Person = (props) => {
   return (
     <li>
-      {props.name}
+      {props.name} {props.number}
     </ li >)
 }
 
@@ -11,19 +11,25 @@ const Person = (props) => {
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: "123-4567-123" }
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const handleNameInput = (event) => {
     setNewName(event.target.value)
+
+  }
+  const handleNumberInput = (event) => {
+    setNewNumber(event.target.value)
 
   }
 
   const addName = (event) => {
     event.preventDefault()
     const toAdd = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
 
     if (persons.find(person =>
@@ -35,6 +41,7 @@ const App = () => {
     } else {
       setPersons(persons.concat(toAdd))
       setNewName('')
+      setNewNumber('')
     }
   }
 
@@ -46,6 +53,12 @@ const App = () => {
           name: <input value={newName}
             onChange={handleNameInput} />
         </div>
+
+        <div>
+          number: <input value={newNumber}
+            onChange={handleNumberInput} />
+        </div>
+
         <div>
           <button type="submit">add</button>
         </div>
@@ -54,7 +67,9 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map(person =>
-          <Person name={person.name} key={person.name} />)}
+          <Person key={person.name}
+            name={person.name}
+            number={person.number} />)}
       </ul>
     </div>
   )
