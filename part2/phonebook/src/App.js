@@ -1,11 +1,9 @@
 import { useState } from 'react'
+import Person from './components/Person'
+import SearchFilter from './components/SearchFilter'
+import AddANew from './components/AddANew'
 
-const Person = (props) => {
-  return (
-    <li>
-      {props.name} {props.number}
-    </ li >)
-}
+
 
 
 
@@ -61,28 +59,13 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input value={filterField}
-          onChange={handleFilterField} />
-      </div>
+      <SearchFilter filterField={filterField} handleFilterField={handleFilterField} />
       <p />
-      <h2>add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName}
-            onChange={handleNameInput} />
-        </div>
-
-        <div>
-          number: <input value={newNumber}
-            onChange={handleNumberInput} />
-        </div>
-
-        <div>
-          <button type="submit">add</button>
-        </div>
-        {/* <div>debug: {newName}</div> */}
-      </form>
+      <AddANew addName={addName}
+        newName={newName}
+        handleNameInput={handleNameInput}
+        newNumber={newNumber}
+        handleNumberInput={handleNumberInput} />
       <h2>Numbers</h2>
       <ul>
         {personsToShow.map(person =>
