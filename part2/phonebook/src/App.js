@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import Person from './components/Person'
 import SearchFilter from './components/SearchFilter'
 import AddANew from './components/AddANew'
-import axios from 'axios'
 import phonebookService from './services/phonebook'
 
 
@@ -16,11 +15,10 @@ const App = () => {
 
   useEffect(() => {
     console.log("effect")
-    axios
-      .get("http://localhost:3001/persons")
-      .then(response => {
+    phonebookService.getAll()
+      .then(initialPersons => {
         console.log("promise fulfilled")
-        setPersons(response.data)
+        setPersons(initialPersons)
       })
   }, [])
 
@@ -37,6 +35,17 @@ const App = () => {
 
   }
 
+  const handleDeletePerson = (id) => {
+    const person = persons.find(p => p.id === id)
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      phonebookService.destroy(person.id)
+        .then(
+          setPersons(persons.filter(p => p.id !== id))
+        )
+
+    }
+  }
+
   const addName = (event) => {
     event.preventDefault()
     const newPerson = {
@@ -45,7 +54,7 @@ const App = () => {
     }
 
     if (persons.find(person =>
-      person.name === newName)) {
+      person.name.toUpperCase() === newName.toLocaleUpperCase())) {
       // console.log('newName', newName)
       // console.log("inside found")
       alert(`${newName} is already added to phonebook`)
@@ -77,9 +86,11 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {personsToShow.map(person =>
-          <Person key={person.name}
+          <Person key={person.id}
             name={person.name}
-            number={person.number} />)}
+            number={person.number}
+            deletePerson={() => handleDeletePerson(person.id)}
+          />)}
       </ul>
     </div>
   )
