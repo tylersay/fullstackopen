@@ -3,7 +3,7 @@ import Person from './components/Person'
 import SearchFilter from './components/SearchFilter'
 import AddANew from './components/AddANew'
 import phonebookService from './services/phonebook'
-
+import Notification from './components/Notification'
 
 
 
@@ -12,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterField, setFilterField] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     console.log("effect")
@@ -52,6 +53,10 @@ const App = () => {
       phonebookService.update(oldPerson.id, newPerson)
       .then(returnedPerson => {
         setPersons(persons.map(person => person.id !== oldPerson.id ? person : returnedPerson))
+        setErrorMessage(`Changed ${newPerson.name}'s number`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
       })
     }
   }
@@ -78,6 +83,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setErrorMessage(`Added ${newPerson.name}`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
         })
     }
   }
@@ -89,6 +98,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage}/>
       <SearchFilter filterField={filterField} handleFilterField={handleFilterField} />
       <p />
       <AddANew addName={addName}
