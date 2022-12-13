@@ -3,6 +3,7 @@ import Person from './components/Person'
 import SearchFilter from './components/SearchFilter'
 import AddANew from './components/AddANew'
 import axios from 'axios'
+import phonebookService from './services/phonebook'
 
 
 
@@ -16,11 +17,11 @@ const App = () => {
   useEffect(() => {
     console.log("effect")
     axios
-    .get("http://localhost:3001/persons")
-    .then(response => {
-      console.log("promise fulfilled")
-      setPersons(response.data)
-    })
+      .get("http://localhost:3001/persons")
+      .then(response => {
+        console.log("promise fulfilled")
+        setPersons(response.data)
+      })
   }, [])
 
   const handleNameInput = (event) => {
@@ -38,7 +39,7 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    const toAdd = {
+    const newPerson = {
       name: newName,
       number: newNumber
     }
@@ -50,9 +51,12 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
 
     } else {
-      setPersons(persons.concat(toAdd))
-      setNewName('')
-      setNewNumber('')
+      phonebookService.create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     }
   }
 
