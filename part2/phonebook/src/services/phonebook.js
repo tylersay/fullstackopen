@@ -16,4 +16,9 @@ const destroy = (id) => {
     return request.then(response => console.log("responsedata", response.data, response))
 }
 
-export default { getAll, create, destroy }
+const update = (id, newObject) => {
+    const request = axios.put(`${baseUrl}/${id}`, newObject)
+    return request.then(response => response.data)
+}
+
+export default { getAll, create, update, destroy }

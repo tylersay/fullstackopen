@@ -46,6 +46,16 @@ const App = () => {
     }
   }
 
+  const handleUpdatePerson = (newPerson, oldPerson) => {
+    // console.log('newName, oldPerson', newName, oldPerson)
+    if (window.confirm(`${newPerson.name} is already added. Replace old number with new?`)) {
+      phonebookService.update(oldPerson.id, newPerson)
+      .then(returnedPerson => {
+        setPersons(persons.map(person => person.id !== oldPerson.id ? person : returnedPerson))
+      })
+    }
+  }
+
   const addName = (event) => {
     event.preventDefault()
     const newPerson = {
@@ -53,13 +63,16 @@ const App = () => {
       number: newNumber
     }
 
-    if (persons.find(person =>
-      person.name.toUpperCase() === newName.toLocaleUpperCase())) {
-      // console.log('newName', newName)
-      // console.log("inside found")
-      alert(`${newName} is already added to phonebook`)
+    const oldPerson = persons.find(person =>
+      person.name.toUpperCase() === newName.toUpperCase())
+    console.log('newName', newName)
+    console.log('oldPerson', oldPerson)
+    // console.log("inside found")
+    if (oldPerson) {
+      handleUpdatePerson(newPerson, oldPerson)
+    }
 
-    } else {
+    else {
       phonebookService.create(newPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
