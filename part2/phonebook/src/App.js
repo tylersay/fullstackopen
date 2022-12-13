@@ -13,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterField, setFilterField] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [errorColor, setErrorColor] = useState('green')
 
   useEffect(() => {
     console.log("effect")
@@ -51,13 +52,22 @@ const App = () => {
     // console.log('newName, oldPerson', newName, oldPerson)
     if (window.confirm(`${newPerson.name} is already added. Replace old number with new?`)) {
       phonebookService.update(oldPerson.id, newPerson)
-      .then(returnedPerson => {
-        setPersons(persons.map(person => person.id !== oldPerson.id ? person : returnedPerson))
-        setErrorMessage(`Changed ${newPerson.name}'s number`)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.id !== oldPerson.id ? person : returnedPerson))
+          setErrorColor('green')
+          setErrorMessage(`Changed ${newPerson.name}'s number`)
+          // setTimeout(() => {
+          //   setErrorMessage(null)
+          // }, 3000)
+        })
+        .catch(error => {
+          setErrorColor('red')
+          setErrorMessage(`Info of ${newPerson.name} has alr been removed`)
           setTimeout(() => {
             setErrorMessage(null)
           }, 3000)
-      })
+          setPersons(persons.filter(p => p.id !== oldPerson.id))
+        })
     }
   }
 
@@ -83,6 +93,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setErrorColor('green')
           setErrorMessage(`Added ${newPerson.name}`)
           setTimeout(() => {
             setErrorMessage(null)
@@ -98,7 +109,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={errorMessage}/>
+      <Notification message={errorMessage} color={errorColor}/>
       <SearchFilter filterField={filterField} handleFilterField={handleFilterField} />
       <p />
       <AddANew addName={addName}
