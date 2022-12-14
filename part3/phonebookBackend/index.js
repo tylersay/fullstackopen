@@ -25,15 +25,23 @@ let persons = [
     }
 ]
 
-app.get('/', (request, response) => {
-    response.send('<h1>Hello World</h1>')
+const PORT = 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
+
+// const getMax = () => {
+//     const 
+// }
+
+app.get('/info', (request, response) => {
+    response.send(`
+    <h1>Hello World</h1>
+    Phonebook has info for ${persons.length} persons.
+    <p/>${Date()}
+    `)
 })
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
-  })
-  
-  const PORT = 3001
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-  })
+})
