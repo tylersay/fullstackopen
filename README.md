@@ -19,7 +19,7 @@ Part 1 aims to introduce and familiarize the React-library, writing codes that r
 
 ### Part 2 - [Communicating with server](https://fullstackopen.com/en/part2)
 
-Part 2 continues on React, rendering a data collection to the screen, submitting data to React application using HTML forms. The focus then shifts to JavaScript fetch and handle data stored in a remote backend server. And lastly, simple ways of adding CSS to the application.
+Part 2 continues on React, rendering a data collection stored in a remote backend server. And lastly, addressing browser-renders and server differencess.
 
 - Functional programming (with arrays) methods of JavaScript
 - CRUD Operations: Create, Read, Update, Delete data from server
@@ -27,3 +27,12 @@ Part 2 continues on React, rendering a data collection to the screen, submitting
 - Handling Promises and Errors
 
 [View solutions folder](/part2)
+
+
+### Part 3 - [Programming a server with NodeJS and Express](https://fullstackopen.com/en/part3)
+
+In this part, focus shifts towards implementing functionality on the server side with the Express library, and data stored in a MongoDB database. And finally, deploying the app to the internet. 
+
+- node-repl: test commands while writing application code
+- nodemon devDependencies
+- Testing with VSCode REST Client and Postman
