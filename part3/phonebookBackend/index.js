@@ -72,12 +72,23 @@ app.delete('/api/persons/:id', (request, response) => {
 const newId = () => {
     return Math.round(Math.random() * 100_000_000)
 }
+
 app.post('/api/persons', (request, response) => {
     const body = request.body
+
 
     if (!body.name || !body.number) {
         return response.status(400).json({
             error: 'content missing'
+        })
+    }
+    const oldPerson = persons.find(p =>
+        p.name.toUpperCase() === body.name.toUpperCase())
+    console.log('oldPerson', oldPerson)
+
+    if (oldPerson) {
+        return response.status(400).json({
+            error: "name must be unique"
         })
     }
 
