@@ -1,3 +1,4 @@
+const { response } = require('express')
 const express = require('express')
 const app = express()
 app.use(express.json())
@@ -44,4 +45,19 @@ app.get('/info', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(p => {
+        // console.log("persons", persons, 'person.id', p.id, typeof (p.id),
+        //     "id", id, typeof (id))
+        return (p.id === id)
+    })
+    if (person) {
+        console.log('person', person)
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
 })
