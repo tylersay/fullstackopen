@@ -68,3 +68,25 @@ app.delete('/api/persons/:id', (request, response) => {
 
     response.status(204).end()
 })
+
+const newId = () => {
+    return Math.round(Math.random() * 100_000_000)
+}
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+
+    if (!body.name || !body.number) {
+        return response.status(400).json({
+            error: 'content missing'
+        })
+    }
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: newId(),
+    }
+
+    persons = persons.concat(person)
+    response.json(person)
+})
