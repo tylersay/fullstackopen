@@ -1,7 +1,17 @@
-const { response } = require('express')
+const { response, request } = require('express')
 const express = require('express')
+const { token } = require('morgan')
 const app = express()
+const morgan = require('morgan')
+
 app.use(express.json())
+
+
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+// app.use(morgan(
+//     ':method :url :status :res[content-length] - :response-time ms :body'
+// ))
 
 let persons = [
     {
@@ -31,9 +41,7 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
 
-// const getMax = () => {
-//     const 
-// }
+
 
 app.get('/info', (request, response) => {
     response.send(`
@@ -45,6 +53,7 @@ app.get('/info', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
+    
 })
 
 app.get('/api/persons/:id', (request, response) => {
@@ -55,7 +64,7 @@ app.get('/api/persons/:id', (request, response) => {
         return (p.id === id)
     })
     if (person) {
-        console.log('person', person)
+        // console.log('person', person)
         response.json(person)
     } else {
         response.status(404).end()
@@ -100,4 +109,9 @@ app.post('/api/persons', (request, response) => {
 
     persons = persons.concat(person)
     response.json(person)
+    
+    morgan.token('body', request => {
+        // const body = JSON.stringify(request.body.name)
+        return (JSON.stringify(request.body))
+    })
 })
