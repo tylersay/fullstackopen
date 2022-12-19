@@ -3,7 +3,9 @@ const express = require('express')
 const { token } = require('morgan')
 const app = express()
 const morgan = require('morgan')
+const cors = require('cors')
 
+app.use(cors())
 app.use(express.json())
 
 
@@ -110,8 +112,10 @@ app.post('/api/persons', (request, response) => {
     persons = persons.concat(person)
     response.json(person)
     
-    morgan.token('body', request => {
-        // const body = JSON.stringify(request.body.name)
-        return (JSON.stringify(request.body))
-    })
+    
+})
+
+morgan.token('body', request => {
+    // const body = JSON.stringify(request.body.name)
+    return (JSON.stringify(request.body))
 })
