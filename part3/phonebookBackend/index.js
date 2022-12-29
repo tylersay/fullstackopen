@@ -1,19 +1,17 @@
-const { response, request } = require('express')
+// const { response, request } = require('express')
 const express = require('express')
-const { token } = require('morgan')
+// const { token } = require('morgan')
 const app = express()
-const morgan = require('morgan')
+// const morgan = require('morgan')
 const cors = require('cors')
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static('build'))
 
 
+// app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
-// app.use(morgan(
-//     ':method :url :status :res[content-length] - :response-time ms :body'
-// ))
 
 let persons = [
     {
@@ -37,12 +35,6 @@ let persons = [
         "number": "39-23-6423122"
     }
 ]
-
-const PORT = 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
-
 
 
 app.get('/info', (request, response) => {
@@ -115,7 +107,13 @@ app.post('/api/persons', (request, response) => {
     
 })
 
-morgan.token('body', request => {
-    // const body = JSON.stringify(request.body.name)
-    return (JSON.stringify(request.body))
+// morgan.token('body', request => {
+//     // const body = JSON.stringify(request.body.name)
+//     return (JSON.stringify(request.body))
+// })
+
+
+const PORT = process.env.PORT || 8080
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
